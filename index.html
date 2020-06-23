@@ -8,8 +8,9 @@
 		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-		<title>Hello, world!</title>
+		<title>Blackjack</title>
 		<style>
+
 			.bd-placeholder-img {
 				font-size: 1.125rem;
 				text-anchor: middle;
@@ -30,6 +31,30 @@
 			.subrayado {
 				text-decoration: line-through;
 			}
+			.jumbotron {
+				height: 400px;
+  		  		background-color: #04B431;
+			}
+			.carta {
+				display: inline-block;
+				padding: 7px;
+				position: relative;
+				border: 2px solid black;
+				top: 250px;
+				border-radius: 5px;
+				background-color: #DDD;
+				margin-right: 10px;
+			}
+			.carta p {
+				display: inline-block;
+				width: 20px;
+				font-size: 25px;
+				font-weight: 600;
+			}
+			.carta img {
+				display: inline-block;
+    		width: 25px;
+			}
 		</style>
 	</head>
 	<body>
@@ -39,21 +64,29 @@
 
 		<div class="container">
 			<div class="row">
-				<div class="col-md-3 col-sm-1">
+				<div class="col-md-2 col-sm-1">
 					<div class="card">
 						<div class="card-header">
-							<p>Siguiente Jugador</p>
+							<p></p>
 						</div>
 						<div class="card-body">
 						</div>
 					</div>
 				</div>
-				<div class="col-md-6 col-sm-10">
+				<div class="col-md-8 col-sm-10">
 					<div class="jumbotron">
-						<p>sdlkjsdlkj</p>
+						<!--
+						<div class="carta">
+							<p>4</p>
+							<img src="img/diamond.png" alt="4 diamantes">
+						</div>
+						<div class="carta">
+							<p>K</p>
+							<img src="img/picas.png" alt="rey picas">
+						</div> -->
 					</div>
 				</div>
-				<div class="col-md-3 col-sm-1">
+				<div class="col-md-2 col-sm-1">
 					<div class="card">
 						<div class="card-header">
 						</div>
@@ -90,6 +123,57 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 	<script src="deck.min.js"></script>
 	<script>
+
+		function valor_carta(carta){
+			if (carta.rank == 'ace'){
+				return 1;
+			} else if (carta.rank == 'king' || carta.rank == 'queen' || carta.rack == 'jack'){
+				return 10;
+			} else{
+				return parseInt(carta.rank);
+			}
+		}
+
+		function dibujar_carta(carta){
+			var p = '';
+			if (carta.rank == 'ace' || carta.rank == 'king' || carta.rank == 'queen' || carta.rack == 'jack'){
+				parrafo = '<p>' + carta.rank[0].toUpperCase() + '</p>';
+			} else{
+				parrafo=`<p>${carta.rank}</p>`;
+			}
+			var img = '';
+			if (carta.suit == 'spades'){
+				img = `<img src="img/picas.png"`;
+			}else if (carta.suit == 'hearts'){
+				img = `<img src="img/corazon.png">`;
+			} else if (carta.suit == 'diamonds'){
+				img = `<img src="img/diamante.png">`;
+			}else { //clubs
+				img = `<img src="img/trebol.jpg">`;
+			}
+
+			var div_carta = '<div class= "carta">' + parrafo + img + '</div>';
+			$('jumbotron').append(div_carta);
+		}
+
+		var deck = new Deck();
+		//var puntaje = 0; //Puntaje parcial del jugador
+		var mano =  []; //Cartas en la mano del jugador
+
+		var carta1 = deck.draw();
+		var carta2 = deck.draw();
+
+		mano.push(carta1);
+		mano.push(carta2);
+
+		// ptje parcial del jugador
+		puntaje = valor_carta(carta1) + valor_carta(carta2);
+
+		//agregar cartas iniciales a la mesa
+		dibujar_carta(carta1);
+		dibujar_carta(carta2);
 		
+		//robar carta
+
 	</script>
 </html>
